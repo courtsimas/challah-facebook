@@ -4,18 +4,25 @@ module Challah
       def initialize(session)
         @provider = session.provider? ? session.provider : nil
         @token = session.token? ? session.token : nil
-        @uid = session.uid? ? session.uid : nil
+        @uid = session.uid? ? session.uid.to_s.strip : nil
       end
 
       def authenticate
         return nil unless @provider == 'facebook'
         return nil unless @token
 
-        token = Interface.get_extended_token(@token)
-        auth = ::Authorization.where(provider: 'facebook', token: token, uid: @uid).first
+        auth = ::Authorization.where(provider: 'facebook', uid: @uid).first
 
         if auth
-          return auth.user
+          token = Facebook.interface.get_extended_token(@token)
+          test_uid = Facebook.interface.get_facebook_uid_from_access_token(token).to_s.strip
+
+          # If the uid from the given token matches the provided uid, update the token
+          # and allow access
+          if test_uid and @uid == test_uid
+            auth.update_attribute(:token, token)
+            return auth.user
+          end
         end
 
         nil

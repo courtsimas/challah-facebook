@@ -37,11 +37,11 @@ module Challah
 
           begin
             # Get extended token
-            extended_token = Interface.get_extended_token(token)
+            extended_token = Facebook.interface.get_extended_token(token)
             user.facebook_provider[:token] = extended_token
 
             # Verify UID
-            test_uid = Interface.get_facebook_uid_from_access_token(extended_token)
+            test_uid = Facebook.interface.get_facebook_uid_from_access_token(extended_token)
 
             # If the uid's match up, this is a valid token
             return test_uid == uid
