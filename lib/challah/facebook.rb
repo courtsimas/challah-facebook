@@ -10,7 +10,7 @@ module Challah
       @options ||= {
         app_id:       ENV['FACEBOOK_APP_ID'],
         app_secret:   ENV['FACEBOOK_SECRET'],
-        permissions:  ENV['FACEBOOK_PERMISSIONS'].to_s.split(','),
+        permissions:  (ENV['FACEBOOK_PERMISSIONS'] || 'email').to_s.split(','),
         user_fields:  %w( first_name last_name email )
       }
     end
