@@ -45,7 +45,8 @@ module Challah
 
             # If the uid's match up, this is a valid token
             return test_uid == uid
-          rescue
+          rescue Exception => e
+            Rails.logger.warn "Facebook Authentication Error: #{e.message}"
             return false
           end
 
