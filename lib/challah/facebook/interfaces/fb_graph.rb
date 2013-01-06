@@ -12,14 +12,6 @@ module Challah
           client.access_token!(:client_auth_body).to_s
         end
 
-        def self.get_access_token_from_cookies(cookies_hash)
-          fb_auth = new(Facebook.options).auth
-          fb_auth.from_cookie(cookies_hash)
-          fb_auth.access_token.to_s
-        rescue
-          nil
-        end
-
         def self.get_extended_token(access_token)
           fb_auth = new(Facebook.options).auth
           fb_auth.exchange_token!(access_token)
