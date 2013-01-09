@@ -5,6 +5,7 @@ module Challah
     autoload :Interface,        'challah/facebook/interface'
     autoload :Provider,         'challah/facebook/provider'
     autoload :Technique,        'challah/facebook/technique'
+    autoload :Interfaces,       'challah/facebook/interfaces'
 
     def self.options
       @options ||= {

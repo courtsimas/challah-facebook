@@ -6,7 +6,7 @@ if defined?(FbGraph)
 
   module Challah
     module Facebook
-      class Interface < Challah::Facebook::Interfaces::FbGraph
+      class Interface < Interfaces::FbGraph
       end
     end
   end
@@ -15,21 +15,16 @@ elsif defined?(Koala)
 
   module Challah
     module Facebook
-      class Interface < Challah::Facebook::Interfaces::Koala
+      class Interface < Interfaces::Koala
       end
     end
   end
 else
+  require 'challah/facebook/interfaces/simple'
+
   module Challah
     module Facebook
-      class Interface
-        def self.mode
-          "none"
-        end
-
-        def method_missing
-          raise "No Facebook adapter found. Please install fb_graph or koala gem to use Facebook"
-        end
+      class Interface < Interfaces::Simple
       end
     end
   end
