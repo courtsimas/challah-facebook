@@ -51,7 +51,14 @@ module Challah
         end
 
         def self.get_authorization_url(callback_uri, permissions = nil)
-          scope = Facebook.permissions if permissions.nil?
+          scope = if permissions.blank?
+            Facebook.permissions
+          else
+            permissions
+          end
+
+          scope = scope.join(',') if scope.is_a?(Array)
+
           auth = new(Facebook.options).auth(callback_uri)
           auth.url_for_oauth_code(permissions: scope)
         end
